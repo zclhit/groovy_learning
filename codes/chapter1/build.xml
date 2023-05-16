@@ -1,0 +1,30 @@
+<project name="ant-build-demo" default="run">
+    <property environment="env"/>
+
+    <path id="groovy.classpath">
+        <fileset dir="${env.GROOVY_HOME}/embeddable/"/>
+    </path>
+
+    <taskdef name = "groovyc"
+        classname ="org.codehaus.groovy.ant.Groovyc"
+        classpathref="groovy.classpath"/>
+
+    <target name="compile"
+        description="compile groovy to bytecode">
+        <mkdir dir="classes_ant"/>
+        <groovyc
+            destdir="classes_ant"
+            srcdir="."
+            includes="groovy_console_demo.groovy"
+            classpathref="groovy.classpath">
+        </groovyc>
+    </target>
+
+    <target name = "run" depends="compile"
+        description="run the compiled class">
+        <java classname="groovy_console_demo">
+            <classpath refid="groovy.classpath"/>
+            <classpath location="classes_ant"/>
+        </java>
+    </target>
+</project>

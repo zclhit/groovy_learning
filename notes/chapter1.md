@@ -34,3 +34,29 @@ groovy:000> 40+2;
 ```
 
 ### groovyConsole
+
+见相关codes，是一个使用groovy编写的图形化页面
+
+### groovy命令直接执行
+
+```groovy xxx.groovy```
+
+或者直接
+
+```groovy -e "println("Hello World!");"```
+即可
+
+## 编译和运行groovy
+
+将groovy编译成java可以执行的字节码Class文件
+```groovyc -d classes xxx.groovy```
+然后直接使用Java命令运行生成的class文件
+
+或者直接使用Ant对groovy文件进行编译和运行
+
+## 使用集成开发环境运行Groovy
+
+比如安装IntelliJ IDEA的插件：groovyJ
+
+
+
