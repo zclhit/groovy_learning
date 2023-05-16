@@ -1,5 +1,7 @@
 # Groovy
 
+更多代码相关的内容可以参考：https://github.com/zclhit/groovy_learning/tree/main
+
 ## 介绍
 
 groovy代码比java更简单，适合自动化重复任务，编写日常工作脚本。
