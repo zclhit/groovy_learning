@@ -181,3 +181,98 @@ assert greeting.toString() == 'Hi Groovy!'
 2. regex匹配"==~"
 3. regex模式操作符:~String
 
+```groovy
+myFairString = 'The rain in Spain stays mainly in the plain!'
+
+BOUNDS = /\b/
+rhyme = /$BOUNDS\w*ain$BOUNDS/
+found = ''
+myFairString.eachMatch(rhyme) {match ->
+    found += match[0] + ' '
+}
+assert found == 'r S p '
+
+found = ''
+(myFairString =~ rhyme).each { match ->
+    found += match + ' '
+}
+assert found == 'rain Spain plain '
+
+cloze = myFairString.replaceAll(rhyme){it-'ain' + '___'}
+assert cloze == 'The r___ in Sp___ stays mainly in the pl___!'
+```
+
+正则匹配结果，并进行替换。更多有关模式匹配细节相关的操作，可以参考：```java.util.regex.Matcher```
+
+### 通过定义模式Pattern提升性能
+
+性能测试相关代码：
+```groovy
+twister = 'she sells sea shells at the sea shore of seychelles'
+
+regex = /\b(\w)\w*\1\b/
+
+start = System.currentTimeMillis()
+100000.times {
+    twister =~ regex
+//    识别10w次
+}
+first = System.currentTimeMillis() - start
+
+start = System.currentTimeMillis()
+pattern = ~regex
+100000.times {
+    pattern.matcher(twister)
+}
+second = System.currentTimeMillis() - start
+
+assert first > second * 1.20
+```
+
+注意```=~``` 和 ```= ~``` 的区别，通过定义模式，可以显著提升匹配速度
+
+掌握正则表达式有助于提升我们对于字符串的处理速度
+
+## 数字
+
+### 运算符与结果
+运算符，对于+ - *来说
+
+- 如果有一个数是Float或者Double，那么结果就是Double
+- 如果有一个数是BigDecimal，那么结果就是BigDecimal
+- 如果有一个数是BigInteger，结果就是BigInteger
+- 如果有一个数是Long，结果就是Long
+- 否则记过就是Integer
+
+整数除法可以通过intdiv方法来进行
+
+### GDK为数字提供了方法
+
+提供了times，upto，downto和step方法
+
+比如：
+```groovy
+def store = ''
+10.times {
+    store += 'x'
+}
+assert store == 'xxxxxxxxxx'
+
+store = ''
+1.upto(5) {
+    number -> store += number
+}
+assert store == '12345'
+
+store = ''
+2.downto(-2) {
+    number -> store += number + ' '
+}
+assert store == '2 1 0 -1 -2 '
+
+store = ''
+0.step(0.5, 0.1) {
+    number -> store += number + ' '
+}
+assert store == '0 0.1 0.2 0.3 0.4 '
+```
